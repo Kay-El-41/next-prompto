@@ -6,6 +6,7 @@ const Home = () => {
       <h1 className="head_text text-center ">
         Discover & Share
         <br className="max-md:hidden" />
+        {/* On smaller screen title is show as second line, but on large screen title will show as one line, nice trick! */}
         <span className="orange_gradient text-center">AI-Powered Prompts</span>
       </h1>
       <p className="desc text-center">

@@ -8,6 +8,7 @@ const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
       <p className="desc text-left">{desc}</p>
       <div className="mt-10 prompt_layout">
         {data.map((post) => (
+          // posts တွေကို map ပတ်ပြီး ပြန်ပြ, handleEdit နဲ့ handleDelete ပြန်ပါ.
           <PromptCard
             key={post._id}
             post={post}

@@ -28,12 +28,16 @@ const Feed = () => {
     const fetchPosts = async () => {
       const response = await fetch('/api/prompt')
       const data = await response.json()
+      // get all posts
+
+      console.log(data)
 
       setPosts(data)
     }
     fetchPosts()
   }, [])
 
+  // filtering function
   const filterPrompts = (searchTerm) => {
     const regex = new RegExp(searchTerm, 'i') // 'i' flag for case-insensitive search
     return posts.filter(
@@ -41,16 +45,20 @@ const Feed = () => {
         regex.test(item.creator.username) ||
         regex.test(item.tag) ||
         regex.test(item.prompt)
+      // check if search Term is in the posts,
     )
   }
 
   const handleChange = (e) => {
-    e.preventDefault()
+    // every time user type, clear the 0.5s
+    // meaning the interval are cancelled as long as user is typing
     clearTimeout(searchTimeout)
     setSearchText(e.target.value)
 
+    // debounce, search only once user finish typing
     setSearchTimeout(
       setTimeout(() => {
+        // every 0.5s search the prompt with user input
         const searchResult = filterPrompts(e.target.value)
         setSearchResults(searchResult)
       }, 500)
@@ -79,7 +87,9 @@ const Feed = () => {
       {searchText ? (
         <PromptCardList data={searchResults} handleTagClick={handleTagClick} />
       ) : (
+        // promptcardlist is at the top of the file,
         <PromptCardList data={posts} handleTagClick={handleTagClick} />
+        // clicking on tag will show prompts with that tag
       )}
     </section>
   )

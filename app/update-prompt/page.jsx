@@ -1,5 +1,8 @@
 'use client'
 
+// edit-prompt page is not dynamic, instead we use useSearchParams to turn it into alternate dynamic,
+// instead of generating dynamic page for prompts, we used searchQuery to get the id of the post, and edit it
+
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -18,6 +21,7 @@ const EditPrompt = () => {
   })
 
   useEffect(() => {
+    // get the original post first and set it in the text boxes with state
     const getPromptDetails = async () => {
       const response = await fetch(`/api/prompt/${promptId}`)
       const data = await response.json()
@@ -31,10 +35,13 @@ const EditPrompt = () => {
     if (promptId) getPromptDetails()
   }, [promptId])
 
+  // when form submitted, update the form
   const updatePrompt = async (e) => {
     e.preventDefault()
     setSubmitting(true)
 
+    // no prompt Id, give the alert!
+    // HAHA you dumb user, dare you think you could trick me with random url?? WKWKK!!
     if (!promptId) return alert('Prompt ID not found')
 
     try {
@@ -45,6 +52,7 @@ const EditPrompt = () => {
           tag: post.tag,
         }),
       })
+      // if update success, go to home
       if (response.ok) {
         router.push('/')
       }
